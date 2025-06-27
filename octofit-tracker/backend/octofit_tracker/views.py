@@ -35,7 +35,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
 
 
 class LeaderboardViewSet(viewsets.ModelViewSet):
-    queryset = Leaderboard.objects.all()
+    queryset = Leaderboard.objects.all().order_by('-score')  # Order by score descending
     serializer_class = LeaderboardSerializer
 
 
