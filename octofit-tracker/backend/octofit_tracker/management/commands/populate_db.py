@@ -1,46 +1,55 @@
 from django.core.management.base import BaseCommand
-from pymongo import MongoClient
+from octofit_tracker.users.models import User
+
+# Placeholder imports for apps without models.py files
+try:
+    from octofit_tracker.teams.models import Team
+except ImportError:
+    Team = None
+
+try:
+    from octofit_tracker.activity.models import Activity
+except ImportError:
+    Activity = None
+
+try:
+    from octofit_tracker.leaderboard.models import Leaderboard
+except ImportError:
+    Leaderboard = None
+
+try:
+    from octofit_tracker.workouts.models import Workout
+except ImportError:
+    Workout = None
+
 
 class Command(BaseCommand):
-    help = 'Populate the octofit_db database with test data'
+
+    help = "Populate the database with test data"
 
     def handle(self, *args, **kwargs):
-        client = MongoClient('localhost', 27017)
-        db = client['octofit_db']
+        # Create test users
+        User.objects.create(username="testuser1", email="testuser1@example.com")
+        User.objects.create(username="testuser2", email="testuser2@example.com")
 
-        # Populate users collection
-        users = [
-            {"email": "user1@example.com", "name": "User One"},
-            {"email": "user2@example.com", "name": "User Two"},
-        ]
-        db.users.insert_many(users)
+        # Create test teams if Team model exists
+        if Team:
+            Team.objects.create(name="Team Alpha")
+            Team.objects.create(name="Team Beta")
 
-        # Populate teams collection
-        teams = [
-            {"name": "Team Alpha", "members": ["user1@example.com", "user2@example.com"]},
-            {"name": "Team Beta", "members": []},
-        ]
-        db.teams.insert_many(teams)
+        # Create test activities if Activity model exists
+        if Activity:
+            Activity.objects.create(name="Running", description="Run 5km")
+            Activity.objects.create(name="Cycling", description="Cycle 10km")
 
-        # Populate activity collection
-        activities = [
-            {"activity_id": 1, "type": "Running", "duration": 30},
-            {"activity_id": 2, "type": "Walking", "duration": 60},
-        ]
-        db.activity.insert_many(activities)
+        # Create test leaderboard entries if Leaderboard model exists
+        if Leaderboard:
+            Leaderboard.objects.create(user_id=1, score=100)
+            Leaderboard.objects.create(user_id=2, score=150)
 
-        # Populate leaderboard collection
-        leaderboard = [
-            {"leaderboard_id": 1, "team": "Team Alpha", "points": 100},
-            {"leaderboard_id": 2, "team": "Team Beta", "points": 50},
-        ]
-        db.leaderboard.insert_many(leaderboard)
+        # Create test workouts if Workout model exists
+        if Workout:
+            Workout.objects.create(name="Morning Run", duration=30)
+            Workout.objects.create(name="Evening Yoga", duration=45)
 
-        # Populate workouts collection
-        workouts = [
-            {"workout_id": 1, "name": "Morning Run", "calories": 300},
-            {"workout_id": 2, "name": "Evening Walk", "calories": 200},
-        ]
-        db.workouts.insert_many(workouts)
-
-        self.stdout.write(self.style.SUCCESS('Successfully populated the octofit_db database with test data'))
+        self.stdout.write(self.style.SUCCESS("Database populated with test data."))
