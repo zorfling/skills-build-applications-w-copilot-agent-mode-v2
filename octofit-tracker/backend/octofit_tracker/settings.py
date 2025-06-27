@@ -41,11 +41,7 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    "octofit_tracker.users",
-    "octofit_tracker.teams",
-    "octofit_tracker.activity",
-    "octofit_tracker.leaderboard",
-    "octofit_tracker.workouts",
+    "octofit_tracker",
 ]
 
 MIDDLEWARE = [
@@ -88,13 +84,6 @@ DATABASES = {
         "ENGINE": "djongo",
         "NAME": "octofit_db",
     }
-}
-
-MIGRATION_MODULES = {
-    "auth": None,
-    "contenttypes": None,
-    "sessions": None,
-    "admin": None,
 }
 
 

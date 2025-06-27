@@ -33,14 +33,6 @@ router.register(r'leaderboard', LeaderboardViewSet)
 router.register(r'workouts', WorkoutViewSet)
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/users/", include("octofit_tracker.users.urls")),
-    path("api/teams/", include("octofit_tracker.teams.urls")),
-    path("api/activity/", include("octofit_tracker.activity.urls")),
-    path("api/leaderboard/", include("octofit_tracker.leaderboard.urls")),
-    path("api/workouts/", include("octofit_tracker.workouts.urls")),
-    path('', include(router.urls)),
-    path('api-root/', include(router.urls)),
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
 ]
-
-api_root = "api/"
