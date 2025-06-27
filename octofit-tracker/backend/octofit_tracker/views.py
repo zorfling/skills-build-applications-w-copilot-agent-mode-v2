@@ -1,4 +1,7 @@
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import JsonResponse
 
 from .models import (
     User,
@@ -39,3 +42,11 @@ class LeaderboardViewSet(viewsets.ModelViewSet):
 class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workout.objects.all()
     serializer_class = WorkoutSerializer
+
+
+@api_view(['GET'])
+def api_root(request):
+    return JsonResponse({
+        "message": "Welcome to the OctoFit Tracker API!",
+        "url": "https://laughing-zebra-5gpqq4w74fvj5g-8000.app.github.dev",
+    })
